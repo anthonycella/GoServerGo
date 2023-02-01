@@ -1,11 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 )
+
+type Response struct {
+	Result int `json:"result"`
+}
 
 func factorial(inputNumber int) int {
 	if inputNumber < 2 {
@@ -31,6 +36,8 @@ func factorialRecursive(inputNumber int) int {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
 	inputNumberAsString := r.URL.Path[1:]
 	fmt.Println(inputNumberAsString)
 
@@ -45,6 +52,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	factorialResult := factorial(inputNumber)
 	fmt.Printf("Type: %T Value: %v", factorialResult, factorialResult)
+
+	result := Response{
+		Result: factorialResult,
+	}
+
+	json.NewEncoder(w).Encode(result)
 }
 
 func main() {
