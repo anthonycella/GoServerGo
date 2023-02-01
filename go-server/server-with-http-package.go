@@ -46,7 +46,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Type: %T Value: %v", factorialResult, factorialResult)
 }
 
-func main() {
+func backupMain() {
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":3124", nil))
 }
