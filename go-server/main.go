@@ -33,6 +33,7 @@ func factorialRecursive(inputNumber int) int {
 func handler(w http.ResponseWriter, r *http.Request) {
 	inputNumberAsString := r.URL.Path[1:]
 	fmt.Println(inputNumberAsString)
+
 	inputNumberLarge, error := strconv.ParseInt(inputNumberAsString, 36, 12)
 	inputNumber := int(inputNumberLarge)
 
@@ -41,8 +42,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Printf("Type: %T Value: %v", inputNumber, inputNumber)
-	factorialResult := factorial(inputNumber)
 
+	factorialResult := factorial(inputNumber)
 	fmt.Printf("Type: %T Value: %v", factorialResult, factorialResult)
 }
 
