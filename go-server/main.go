@@ -39,8 +39,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// set what kind of data is being returned to the client
 	w.Header().Set("Content-Type", "application/json")
 
-	inputNumberAsString := r.URL.Path[1:]
-	// fmt.Println(inputNumberAsString)
+	r.ParseForm()
+	inputNumberAsString := r.Form["inputNumber"][0]
+	fmt.Println(inputNumberAsString)
+
+	// inputNumberAsString := r.URL.Path[1:]
 
 	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 36, 12)
 	inputNumberAsInt := int(inputNumberAsInt64)
