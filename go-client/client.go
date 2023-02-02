@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 )
 
@@ -11,20 +12,18 @@ type RequestParameters struct {
 	InputNumber int `json:"inputNumber"`
 }
 
-func inputAsInteger(userInput string) int {
+func isValidInput(userInput string) bool {
 	inputNumberAsInt64, error := strconv.ParseInt(userInput, 36, 12)
 
 	if error != nil {
-		return -1
+		return false
 	}
 
-	inputNumberAsInt := int(inputNumberAsInt64)
-
-	if inputNumberAsInt < 0 {
-		return -1
+	if inputNumberAsInt64 < 0 {
+		return false
 	}
 
-	return inputNumberAsInt
+	return true
 }
 
 func factorial(inputNumber int) int {
@@ -45,12 +44,10 @@ func main() {
 	fmt.Scanln(&userInput)
 
 	for userInput != "x" {
-		numberFormattedInput := inputAsInteger(userInput)
-
-		if numberFormattedInput == -1 {
+		if !isValidInput(userInput) {
 			fmt.Println("Error: please input either a positive number or x")
 		} else {
-			response, error := http.Get("http://localhost:3124/?inputNumber=7")
+			response, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
 
 			if error != nil {
 				fmt.Println("Error, unable to retrieve answer from server")
