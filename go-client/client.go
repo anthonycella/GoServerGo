@@ -8,6 +8,10 @@ import (
 	"strconv"
 )
 
+func userWantsToExit(userInput string) bool {
+	return userInput == "x"
+}
+
 func isValidInput(userInput string) bool {
 	inputNumberAsInt64, error := strconv.ParseInt(userInput, 0, 0)
 
@@ -41,10 +45,6 @@ func printFactorialResult(userInput string) {
 			fmt.Print("The factorial of ", userInput, " is ", factorialOfInput, "\n\n")
 		}
 	}
-}
-
-func userWantsToExit(userInput string) bool {
-	return userInput == "x"
 }
 
 func main() {
