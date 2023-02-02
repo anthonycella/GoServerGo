@@ -2,8 +2,13 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 )
+
+type RequestParameters struct {
+	InputNumber int `json:"inputNumber"`
+}
 
 func inputAsInteger(userInput string) int {
 	inputNumberAsInt64, error := strconv.ParseInt(userInput, 36, 12)
@@ -44,8 +49,13 @@ func main() {
 		if numberFormattedInput == -1 {
 			fmt.Println("Error: please input either a positive number or x")
 		} else {
-			factorialOfInput := factorial(numberFormattedInput)
-			fmt.Println("The factorial of", userInput, "is", factorialOfInput)
+			factorialOfInput, error := http.Get("http://localhost:3124/?inputNumber=7")
+
+			if error != nil {
+				fmt.Println("Error, unable to retrieve answer from server")
+			} else {
+				fmt.Println("The factorial of", userInput, "is", factorialOfInput.Body)
+			}
 		}
 
 		fmt.Println("Enter a positive number to compute factorial or x to exit")
