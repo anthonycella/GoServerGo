@@ -24,19 +24,27 @@ func isValidInput(userInput string) bool {
 func printFactorialResult(userInput string) {
 	response, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
 
-	if error != nil {
+	unableToRetrieveFromServer := error != nil
+
+	if unableToRetrieveFromServer {
 		fmt.Print("Error, unable to retrieve answer from server\n\n")
 	} else {
 		var responseJson map[string]interface{}
 		errorInDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
 
-		if errorInDecoding != nil {
-			fmt.Println(errorInDecoding)
+		unableToDecodeJson := errorInDecoding != nil
+
+		if unableToDecodeJson {
+			fmt.Println("Error, unable to decode data retrieved from server (expecting JSON)")
 		} else {
 			factorialOfInput := responseJson["result"]
 			fmt.Print("The factorial of ", userInput, " is ", factorialOfInput, "\n\n")
 		}
 	}
+}
+
+func userWantsToExit(userInput string) bool {
+	return userInput == "x"
 }
 
 func main() {
@@ -45,7 +53,7 @@ func main() {
 	var userInput string
 	fmt.Scanln(&userInput)
 
-	for userInput != "x" {
+	for !userWantsToExit(userInput) {
 		if !isValidInput(userInput) {
 			fmt.Print("Error: please input either a positive number between 0 and 20 inclusive or x\n\n")
 		} else {
