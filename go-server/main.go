@@ -41,9 +41,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 	inputNumberAsString := r.Form["inputNumber"][0]
-	fmt.Println(inputNumberAsString)
-
-	// inputNumberAsString := r.URL.Path[1:]
+	// fmt.Println(inputNumberAsString)
 
 	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 36, 12)
 	inputNumberAsInt := int(inputNumberAsInt64)
