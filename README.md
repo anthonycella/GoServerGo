@@ -1,6 +1,6 @@
 # GoServerGo
 
-A basic go server app that promps the user to enter a positive integer. Once the user inputs the integer the application will send the integer to the server as a string to compute the factorial of said integer. The application is terminated when the user inputs "x". All other input besides positive integers and x is considered invalid and will print an error message to the user.
+A basic go server app that promps the user to enter a positive integer between 0 and 20 inclusive. Once the user inputs the integer the application will send the integer to the server as a string to compute the factorial of said integer. The application is terminated when the user inputs "x". All other input besides positive integers between 0 and 20 inclusive and x is considered invalid and will print an error message to the user.
 
 ![GoServerGo demo](./goserverdemo.gif)
 
