@@ -27,7 +27,7 @@ func factorial(inputNumber int64) int64 {
 	return factorialResult
 }
 
-func factorialRecursive(inputNumber int) int {
+func factorialRecursive(inputNumber int64) int64 {
 	if inputNumber < 2 {
 		return 1
 	}
