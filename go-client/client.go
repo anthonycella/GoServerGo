@@ -9,13 +9,13 @@ import (
 )
 
 func isValidInput(userInput string) bool {
-	inputNumberAsInt64, error := strconv.ParseInt(userInput, 36, 0)
+	inputNumberAsInt64, error := strconv.ParseInt(userInput, 0, 0)
 
 	if error != nil {
 		return false
 	}
 
-	if inputNumberAsInt64 < 0 {
+	if inputNumberAsInt64 < 0 || inputNumberAsInt64 > 20 {
 		return false
 	}
 
@@ -41,19 +41,19 @@ func printFactorialResult(userInput string) {
 }
 
 func main() {
-	fmt.Println("\nEnter a positive number to compute factorial or x to exit")
+	fmt.Println("\nEnter a positive number between 0 and 20 inclusive to compute factorial or x to exit")
 
 	var userInput string
 	fmt.Scanln(&userInput)
 
 	for userInput != "x" {
 		if !isValidInput(userInput) {
-			fmt.Print("Error: please input either a positive number or x\n\n")
+			fmt.Print("Error: please input either a positive number between 0 and 20 inclusive or x\n\n")
 		} else {
 			printFactorialResult(userInput)
 		}
 
-		fmt.Println("Enter a positive number to compute factorial or x to exit")
+		fmt.Println("Enter a positive number between 0 and 20 inclusive to compute factorial or x to exit")
 		fmt.Scanln(&userInput)
 	}
 
