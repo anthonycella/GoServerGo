@@ -11,15 +11,14 @@ import (
 func isValidInput(userInput string) bool {
 	inputNumberAsInt64, error := strconv.ParseInt(userInput, 0, 0)
 
-	if error != nil {
-		return false
-	}
+	userDidntInputANumber := error != nil
+	userInputANumberOutOfRange := inputNumberAsInt64 < 0 || inputNumberAsInt64 > 20
 
-	if inputNumberAsInt64 < 0 || inputNumberAsInt64 > 20 {
+	if userDidntInputANumber || userInputANumberOutOfRange {
 		return false
+	} else {
+		return true
 	}
-
-	return true
 }
 
 func printFactorialResult(userInput string) {
