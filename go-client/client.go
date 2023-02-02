@@ -22,22 +22,22 @@ func isValidInput(userInput string) bool {
 }
 
 func printFactorialResult(userInput string) {
-	response, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
+	factorialResponseFromServer, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
 
 	unableToRetrieveFromServer := error != nil
 
 	if unableToRetrieveFromServer {
 		fmt.Print("Error, unable to retrieve answer from server\n\n")
 	} else {
-		var responseJson map[string]interface{}
-		errorInDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
+		var factorialResponseJson map[string]interface{}
+		errorInDecoding := json.NewDecoder(factorialResponseFromServer.Body).Decode(&factorialResponseJson)
 
 		unableToDecodeJson := errorInDecoding != nil
 
 		if unableToDecodeJson {
 			fmt.Println("Error, unable to decode data retrieved from server (expecting JSON)")
 		} else {
-			factorialOfInput := responseJson["result"]
+			factorialOfInput := factorialResponseJson["result"]
 			fmt.Print("The factorial of ", userInput, " is ", factorialOfInput, "\n\n")
 		}
 	}

@@ -25,7 +25,7 @@ func factorial(inputNumber int64) int64 {
 
 	for inputNumber > 0 {
 		factorialResult *= inputNumber
-		inputNumber -= 1
+		inputNumber--
 	}
 
 	return factorialResult
@@ -47,13 +47,12 @@ func handler(response http.ResponseWriter, request *http.Request) {
 	request.ParseForm()
 
 	inputNumberAsString := request.Form["inputNumber"][0]
-	// fmt.Println(inputNumberAsString)
-
 	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 0, 64)
-	// inputNumberAsInt := int(inputNumberAsInt64)
 
-	if error != nil {
-		fmt.Println("You done messed up")
+	unableToParseIntFromInputData := error != nil
+
+	if unableToParseIntFromInputData {
+		fmt.Println("Error: server cannot convert input data to int64")
 	}
 
 	fmt.Printf("Input Type: %T      Input Value: %v \n", inputNumberAsInt64, inputNumberAsInt64)
@@ -70,6 +69,7 @@ func handler(response http.ResponseWriter, request *http.Request) {
 	// and here is my pointer receiver function
 	result.populate(factorialResult)
 
+	// return result to the client
 	json.NewEncoder(response).Encode(result)
 }
 
