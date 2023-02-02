@@ -12,6 +12,10 @@ type Response struct {
 	Result int64 `json:"result"`
 }
 
+func (r *Response) populate(result int64) {
+	r.Result = result
+}
+
 func factorial(inputNumber int64) int64 {
 	if inputNumber < 2 {
 		return 1
@@ -57,9 +61,14 @@ func handler(response http.ResponseWriter, request *http.Request) {
 	factorialResult := factorial(inputNumberAsInt64)
 	fmt.Printf("Return Type: %T     Return Value: %v \n\n", factorialResult, factorialResult)
 
+	// result is set to negative one at first because I want
+	// to test out my pointer receiver function to set the result
 	result := Response{
-		Result: factorialResult,
+		Result: -1,
 	}
+
+	// and here is my pointer receiver function
+	result.populate(factorialResult)
 
 	json.NewEncoder(response).Encode(result)
 }
