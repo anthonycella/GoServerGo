@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -49,12 +50,22 @@ func main() {
 		if numberFormattedInput == -1 {
 			fmt.Println("Error: please input either a positive number or x")
 		} else {
-			factorialOfInput, error := http.Get("http://localhost:3124/?inputNumber=7")
+			response, error := http.Get("http://localhost:3124/?inputNumber=7")
 
 			if error != nil {
 				fmt.Println("Error, unable to retrieve answer from server")
 			} else {
-				fmt.Println("The factorial of", userInput, "is", factorialOfInput.Body)
+				var responseJson map[string]interface{}
+				var factorialOfInput int
+				errorDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
+
+				if errorDecoding != nil {
+					fmt.Println(errorDecoding)
+				} else {
+					fmt.Printf("Type of response: %T   Response Value: %v", responseJson, responseJson)
+					fmt.Println("The factorial of", userInput, "is", factorialOfInput)
+				}
+
 			}
 		}
 
