@@ -8,10 +8,6 @@ import (
 	"strconv"
 )
 
-type RequestParameters struct {
-	InputNumber int `json:"inputNumber"`
-}
-
 func isValidInput(userInput string) bool {
 	inputNumberAsInt64, error := strconv.ParseInt(userInput, 36, 12)
 
@@ -26,15 +22,22 @@ func isValidInput(userInput string) bool {
 	return true
 }
 
-func factorial(inputNumber int) int {
-	factorialOfInputNumber := 1
+func printFactorialResult(userInput string) {
+	response, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
 
-	for inputNumber > 0 {
-		factorialOfInputNumber *= inputNumber
-		inputNumber--
+	if error != nil {
+		fmt.Println("Error, unable to retrieve answer from server")
+	} else {
+		var responseJson map[string]interface{}
+		errorInDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
+
+		if errorInDecoding != nil {
+			fmt.Println(errorInDecoding)
+		} else {
+			factorialOfInput := responseJson["result"]
+			fmt.Println("The factorial of", userInput, "is", factorialOfInput)
+		}
 	}
-
-	return factorialOfInputNumber
 }
 
 func main() {
@@ -47,22 +50,7 @@ func main() {
 		if !isValidInput(userInput) {
 			fmt.Println("Error: please input either a positive number or x")
 		} else {
-			response, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
-
-			if error != nil {
-				fmt.Println("Error, unable to retrieve answer from server")
-			} else {
-				var responseJson map[string]interface{}
-				errorDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
-
-				if errorDecoding != nil {
-					fmt.Println(errorDecoding)
-				} else {
-					factorialOfInput := responseJson["result"]
-					fmt.Println("The factorial of", userInput, "is", factorialOfInput)
-				}
-
-			}
+			printFactorialResult(userInput)
 		}
 
 		fmt.Println("Enter a positive number to compute factorial or x to exit")
