@@ -26,7 +26,7 @@ func printFactorialResult(userInput string) {
 	response, error := http.PostForm("http://localhost:3124/", url.Values{"inputNumber": {userInput}})
 
 	if error != nil {
-		fmt.Println("Error, unable to retrieve answer from server")
+		fmt.Print("Error, unable to retrieve answer from server\n\n")
 	} else {
 		var responseJson map[string]interface{}
 		errorInDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
@@ -35,20 +35,20 @@ func printFactorialResult(userInput string) {
 			fmt.Println(errorInDecoding)
 		} else {
 			factorialOfInput := responseJson["result"]
-			fmt.Println("The factorial of", userInput, "is", factorialOfInput)
+			fmt.Print("The factorial of ", userInput, " is ", factorialOfInput, "\n\n")
 		}
 	}
 }
 
 func main() {
-	fmt.Println("Enter a positive number to compute factorial or x to exit")
+	fmt.Println("\nEnter a positive number to compute factorial or x to exit")
 
 	var userInput string
 	fmt.Scanln(&userInput)
 
 	for userInput != "x" {
 		if !isValidInput(userInput) {
-			fmt.Println("Error: please input either a positive number or x")
+			fmt.Print("Error: please input either a positive number or x\n\n")
 		} else {
 			printFactorialResult(userInput)
 		}
