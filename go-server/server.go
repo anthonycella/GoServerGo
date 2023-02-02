@@ -49,7 +49,7 @@ func handler(response http.ResponseWriter, request *http.Request) {
 	inputNumberAsString := request.Form["inputNumber"][0]
 	// fmt.Println(inputNumberAsString)
 
-	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 0, 0)
+	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 0, 64)
 	// inputNumberAsInt := int(inputNumberAsInt64)
 
 	if error != nil {

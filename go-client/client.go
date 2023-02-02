@@ -10,7 +10,6 @@ import (
 
 func isValidInput(userInput string) bool {
 	inputNumberAsInt64, error := strconv.ParseInt(userInput, 36, 0)
-	fmt.Printf("Type of inputNumberAsInt64 %T", inputNumberAsInt64)
 
 	if error != nil {
 		return false
