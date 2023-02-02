@@ -56,13 +56,12 @@ func main() {
 				fmt.Println("Error, unable to retrieve answer from server")
 			} else {
 				var responseJson map[string]interface{}
-				var factorialOfInput int
 				errorDecoding := json.NewDecoder(response.Body).Decode(&responseJson)
 
 				if errorDecoding != nil {
 					fmt.Println(errorDecoding)
 				} else {
-					fmt.Printf("Type of response: %T   Response Value: %v", responseJson, responseJson)
+					factorialOfInput := responseJson["result"]
 					fmt.Println("The factorial of", userInput, "is", factorialOfInput)
 				}
 
