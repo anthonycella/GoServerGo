@@ -9,15 +9,15 @@ import (
 )
 
 type Response struct {
-	Result int `json:"result"`
+	Result int64 `json:"result"`
 }
 
-func factorial(inputNumber int) int {
+func factorial(inputNumber int64) int64 {
 	if inputNumber < 2 {
 		return 1
 	}
 
-	factorialResult := 1
+	var factorialResult int64 = 1
 
 	for inputNumber > 0 {
 		factorialResult *= inputNumber
@@ -45,16 +45,16 @@ func handler(response http.ResponseWriter, request *http.Request) {
 	inputNumberAsString := request.Form["inputNumber"][0]
 	// fmt.Println(inputNumberAsString)
 
-	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 36, 12)
-	inputNumberAsInt := int(inputNumberAsInt64)
+	inputNumberAsInt64, error := strconv.ParseInt(inputNumberAsString, 0, 0)
+	// inputNumberAsInt := int(inputNumberAsInt64)
 
 	if error != nil {
 		fmt.Println("You done messed up")
 	}
 
-	fmt.Printf("Input Type: %T      Input Value: %v \n", inputNumberAsInt, inputNumberAsInt)
+	fmt.Printf("Input Type: %T      Input Value: %v \n", inputNumberAsInt64, inputNumberAsInt64)
 
-	factorialResult := factorial(inputNumberAsInt)
+	factorialResult := factorial(inputNumberAsInt64)
 	fmt.Printf("Return Type: %T     Return Value: %v \n\n", factorialResult, factorialResult)
 
 	result := Response{
